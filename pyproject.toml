@@ -1,0 +1,96 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [ "hatch-vcs", "hatchling" ]
+
+[project]
+name = "dj-chatbot"
+description = "A Django package for adding AI-powered chatbot widgets to your project."
+readme = "README.md"
+keywords = [ "agents", "ai", "chatbot", "django", "langchain", "llm", "python" ]
+license = "MIT"
+license-files = [ "LICEN[CS]E*" ]
+maintainers = [ { name = "Michael Loukeris", email = "michael.loukeris@gmail.com" } ]
+authors = [ { name = "Michael Loukeris", email = "michael.loukeris@gmail.com" } ]
+requires-python = ">=3.12"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Framework :: Django",
+  "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
+  "Framework :: Django :: 5.1",
+  "Framework :: Django :: 5.2",
+  "Framework :: Django :: 6.0",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Internet :: WWW/HTTP",
+]
+dynamic = [ "version" ]
+dependencies = [
+  "django>=4.2",
+  "langchain>=0.3",
+]
+urls."Bug Tracker" = "https://github.com/donMichaelL/dj-chatbot/issues"
+urls.Changelog = "https://github.com/donMichaelL/dj-chatbot/blob/main/CHANGELOG.md"
+urls.Repository = "https://github.com/donMichaelL/dj-chatbot"
+
+[dependency-groups]
+dev = [
+  "pre-commit>=4.5.1",
+]
+test = [
+  "pytest>=8",
+  "pytest-cov>=6",
+  "pytest-django>=4.8",
+  "pytest-randomly",
+  "tox>=4",
+  "tox-uv>=1",
+]
+
+[tool.hatch]
+build.targets.wheel.packages = [ "src/dj_chatbot" ]
+version.source = "vcs"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 119
+lint.select = [ "B", "C4", "E", "F", "I", "INP", "S", "SIM", "T20", "TCH", "TID", "UP", "W" ]
+lint.per-file-ignores."tests/*" = [ "INP001", "S101", "S105" ]
+lint.extend-safe-fixes = [ "UP006" ]
+lint.isort.required-imports = [ "from __future__ import annotations" ]
+
+[tool.mypy]
+plugins = [ "mypy_django_plugin.main" ]
+mypy_path = "src/"
+namespace_packages = false
+strict = true
+warn_unreachable = true
+enable_error_code = [
+  "ignore-without-code",
+  "redundant-expr",
+  "truthy-bool",
+]
+overrides = [ { module = "tests.*", allow_untyped_defs = true } ]
+
+[tool.django-stubs]
+django_settings_module = "tests.settings"
+
+[tool.pytest]
+ini_options.DJANGO_SETTINGS_MODULE = "tests.settings"
+ini_options.django_find_project = false
+ini_options.pythonpath = [ "src", "." ]
+ini_options.addopts = """\
+  --strict-config --strict-markers --cov=dj_chatbot --cov-report=term-missing --cov-report=html --cov-report=xml \
+  --cov-fail-under=80\
+  """
+ini_options.xfail_strict = true
+
+[tool.coverage]
+run.branch = true
+run.source = [ "dj_chatbot" ]
+report.show_missing = true
+report.skip_covered = true
+report.skip_empty = true
