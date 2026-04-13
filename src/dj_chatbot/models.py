@@ -82,4 +82,4 @@ class Message(models.Model):
         ordering = ["created_at"]
 
     def __str__(self) -> str:
-        return f"{self.role}: {self.content[:50]}"
+        return f"Message: {self.id}"

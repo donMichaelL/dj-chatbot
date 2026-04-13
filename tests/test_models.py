@@ -61,15 +61,7 @@ class TestMessage:
         assert user_message.content == "Hello, how are you?"
 
     def test_str(self, user_message):
-        assert str(user_message) == "user: Hello, how are you?"
-
-    def test_str_truncates_long_content(self, conversation):
-        message = Message.objects.create(
-            conversation=conversation,
-            role=Message.Role.ASSISTANT,
-            content="a" * 100,
-        )
-        assert str(message) == f"assistant: {'a' * 50}"
+        assert str(user_message) == f"Message: {user_message.id}"
 
     def test_default_metadata(self, user_message):
         assert user_message.metadata == {}
