@@ -1,0 +1,37 @@
+{% load dj_chatbot_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dj-chatbot example — override model</title>
+</head>
+<body>
+    <h1>Override Model</h1>
+    <p><a href="{% url 'home' %}">← Back to home</a></p>
+    <p>This page uses <code>SupportChatView</code>, which overrides <code>build_model</code> to return a custom <code>ChatOpenAI</code> instance.</p>
+
+    <pre style="background:#f5f5f5; padding:1rem; border-radius:6px; overflow:auto; font-size:0.875rem;"><code>from django.conf import settings
+from langchain_openai import ChatOpenAI
+
+from dj_chatbot.views import ChatView
+
+
+class SupportChatView(ChatView):
+    system_prompt = "You are a concise support assistant. Keep answers short and friendly."
+
+    def build_model(self):
+        return ChatOpenAI(
+            model="gpt-5-mini",
+            temperature=0.2,
+            api_key=settings.DJ_CHATBOT_API_KEY,
+        )</code></pre>
+
+    {% chatbot_widget title="Support Bot" welcome_message="Hi! How can I help?" url_name="models_send" %}
+
+    <style>
+        .dj-chatbot {
+            --dj-chatbot-primary: #16a34a;
+        }
+    </style>
+</body>
+</html>

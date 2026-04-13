@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 from asgiref.sync import sync_to_async
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.http import JsonResponse
 from django.views import View
 from langchain.agents import create_agent
@@ -26,7 +27,16 @@ class ChatView(BaseChatView):
     """Default chat view. Reads config from class attributes or settings."""
 
     system_prompt: str | None = None
+    """Overrides [`DJ_CHATBOT_SYSTEM_PROMPT`](../settings.md#dj_chatbot_system_prompt).
+
+    If `None`, falls back to the setting.
+    """
+
     model: str | None = None
+    """Overrides [`DJ_CHATBOT_MODEL`](../settings.md#dj_chatbot_model).
+
+    If `None`, falls back to the setting.
+    """
 
     def get_system_prompt(self) -> str:
         """Return the system prompt for the agent."""
@@ -45,7 +55,13 @@ class ChatView(BaseChatView):
         """
         if self.model is not None:
             return self.model
-        return settings.DJ_CHATBOT_MODEL  # type: ignore[misc,no-any-return]
+        model = getattr(settings, "DJ_CHATBOT_MODEL", None)
+        if not model:
+            raise ImproperlyConfigured(
+                "dj_chatbot requires DJ_CHATBOT_MODEL to be set in your Django settings "
+                '(e.g. DJ_CHATBOT_MODEL = "openai:gpt-4o-mini"), or set `model` on your view subclass.'
+            )
+        return model  # type: ignore[no-any-return]
 
     def build_model(self) -> BaseChatModel:
         """Instantiate the chat model via `init_chat_model`.
@@ -56,9 +72,15 @@ class ChatView(BaseChatView):
         See Also:
             [Chat Model Integrations](https://docs.langchain.com/oss/python/integrations/chat).
         """
+        api_key = getattr(settings, "DJ_CHATBOT_API_KEY", None)
+        if not api_key:
+            raise ImproperlyConfigured(
+                "dj_chatbot requires DJ_CHATBOT_API_KEY to be set in your Django settings. "
+                "Provide the API key for the configured provider."
+            )
         return init_chat_model(
             model=self.get_model(),
-            api_key=settings.DJ_CHATBOT_API_KEY,  # type: ignore[misc]
+            api_key=api_key,
         )
 
     def build_tools(self) -> list[BaseTool]:

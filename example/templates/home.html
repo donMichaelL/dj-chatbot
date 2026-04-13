@@ -1,0 +1,18 @@
+{% load dj_chatbot_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dj-chatbot example</title>
+</head>
+<body>
+    <h1>dj-chatbot example</h1>
+    <p>The chatbot widget is mounted below — uses the default <code>ChatView</code> wired via settings.</p>
+    <ul>
+        <li><a href="{% url 'models' %}">Override Model →</a></li>
+        <li><a href="{% url 'tools' %}">Override Tools →</a></li>
+    </ul>
+
+    {% chatbot_widget title="Support Bot" welcome_message="Hi! How can I help?" %}
+</body>
+</html>

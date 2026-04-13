@@ -1,0 +1,44 @@
+{% load dj_chatbot_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dj-chatbot example — override tools</title>
+</head>
+<body>
+    <h1>Override Tools</h1>
+    <p><a href="{% url 'home' %}">← Back to home</a></p>
+    <p>This page uses <code>UsersChatView</code>, which overrides <code>build_tools</code> to expose a <code>list_users</code> tool that queries Django's auth database. Try asking <em>"who is registered?"</em>.</p>
+
+    <pre style="background:#f5f5f5; padding:1rem; border-radius:6px; overflow:auto; font-size:0.875rem;"><code>from django.contrib.auth import get_user_model
+from langchain_core.tools import tool
+
+from dj_chatbot.views import ChatView
+
+
+@tool
+async def list_users() -> str:
+    """List all usernames currently registered in the Django auth system."""
+    user_model = get_user_model()
+    usernames = [name async for name in user_model.objects.values_list("username", flat=True)]
+    return ", ".join(usernames) if usernames else "No users registered."
+
+
+class UsersChatView(ChatView):
+    system_prompt = (
+        "You are an admin assistant. Use the `list_users` tool to answer questions about "
+        "registered users. Do not guess — always call the tool."
+    )
+
+    def build_tools(self):
+        return [list_users]</code></pre>
+
+    {% chatbot_widget title="Admin Bot" welcome_message="Ask me about registered users." url_name="tools_send" %}
+
+    <style>
+        .dj-chatbot {
+            --dj-chatbot-primary: #ea580c;
+        }
+    </style>
+</body>
+</html>

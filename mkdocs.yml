@@ -32,6 +32,7 @@ theme:
 
 plugins:
   - search
+  - open-in-new-tab
   - mkdocstrings:
       handlers:
         python:
@@ -60,7 +61,14 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Getting Started: getting-started.md
+  - Settings: settings.md
+  - Customization:
+      - Agent: customization/agent.md
+      - Widget: customization/widget.md
   - API Reference:
       - Models: api/models.md
       - Forms: api/forms.md
       - Mixins: api/mixins.md
+      - Base Views: api/base_views.md
+      - Views: api/views.md
