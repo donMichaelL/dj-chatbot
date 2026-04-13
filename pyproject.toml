@@ -49,6 +49,11 @@ test = [
   "tox>=4",
   "tox-uv>=1",
 ]
+docs = [
+  "mkdocs>=1.6.1",
+  "mkdocs-material>=9.7.6",
+  "mkdocstrings-python>=2.0.3",
+]
 
 [tool.hatch]
 build.targets.wheel.packages = [ "src/dj_chatbot" ]
