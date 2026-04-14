@@ -44,6 +44,7 @@ dev = [
 test = [
   "coverage[toml]",
   "pytest>=8",
+  "pytest-cov>=6",
   "pytest-django>=4.8",
   "pytest-randomly",
   "tox>=4",
@@ -90,14 +91,14 @@ django_settings_module = "tests.settings"
 ini_options.DJANGO_SETTINGS_MODULE = "tests.settings"
 ini_options.django_find_project = false
 ini_options.pythonpath = [ "src", "." ]
-ini_options.addopts = "--strict-config --strict-markers"
+ini_options.addopts = "--strict-config --strict-markers --cov=dj_chatbot --cov-report=term-missing --cov-report=html --cov-report=xml"
 ini_options.xfail_strict = true
 
 [tool.coverage]
 run.branch = true
 run.data_file = ".coverage/coverage"
 run.parallel = true
-run.source = [ "dj_chatbot" ]
+run.source_pkgs = [ "dj_chatbot" ]
 paths.source = [
   "src",
   ".tox/**/site-packages",
