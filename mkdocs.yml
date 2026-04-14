@@ -62,3 +62,4 @@ nav:
   - Home: index.md
   - API Reference:
       - Models: api/models.md
+      - Forms: api/forms.md
