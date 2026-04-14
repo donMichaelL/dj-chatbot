@@ -32,6 +32,7 @@ dynamic = [ "version" ]
 dependencies = [
   "django>=4.2",
   "langchain>=0.3",
+  "langchain-core>=0.3",
 ]
 urls."Bug Tracker" = "https://github.com/donMichaelL/dj-chatbot/issues"
 urls.Changelog = "https://github.com/donMichaelL/dj-chatbot/blob/main/CHANGELOG.md"

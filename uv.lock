@@ -276,6 +276,7 @@ source = { editable = "." }
 dependencies = [
     { name = "django" },
     { name = "langchain" },
+    { name = "langchain-core" },
 ]
 
 [package.dev-dependencies]
@@ -301,6 +302,7 @@ test = [
 requires-dist = [
     { name = "django", specifier = ">=4.2" },
     { name = "langchain", specifier = ">=0.3" },
+    { name = "langchain-core", specifier = ">=0.3" },
 ]
 
 [package.metadata.requires-dev]

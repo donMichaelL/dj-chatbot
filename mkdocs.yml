@@ -63,3 +63,4 @@ nav:
   - API Reference:
       - Models: api/models.md
       - Forms: api/forms.md
+      - Mixins: api/mixins.md
