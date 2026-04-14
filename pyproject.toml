@@ -98,7 +98,7 @@ ini_options.xfail_strict = true
 run.branch = true
 run.data_file = ".coverage/coverage"
 run.parallel = true
-run.source_pkgs = [ "dj_chatbot" ]
+run.source = [ "src/dj_chatbot" ]
 paths.source = [
   "src",
   ".tox/**/site-packages",

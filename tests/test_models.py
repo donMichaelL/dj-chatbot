@@ -36,39 +36,49 @@ def assistant_message(conversation):
 @pytest.mark.django_db
 class TestConversation:
     def test_create(self, conversation):
+        """Test that a conversation persists with the supplied thread_id and title."""
         assert conversation.thread_id == "thread-1"
         assert conversation.title == "Test Chat"
 
     def test_str_with_title(self, conversation):
+        """Test that __str__ returns the title when one is set."""
         assert str(conversation) == "Test Chat"
 
     def test_str_without_title(self, conversation_no_title):
+        """Test that __str__ falls back to "Conversation <id>" when the title is blank."""
         assert str(conversation_no_title) == f"Conversation {conversation_no_title.id}"
 
     def test_ordering(self, conversation, conversation_no_title):
+        """Test that the default queryset orders conversations by updated_at descending."""
         results = list(Conversation.objects.all())
         assert results[0].updated_at >= results[1].updated_at
 
     def test_default_title_is_empty(self, conversation_no_title):
+        """Test that title defaults to an empty string when not provided."""
         assert conversation_no_title.title == ""
 
 
 @pytest.mark.django_db
 class TestMessage:
     def test_create(self, user_message, conversation):
+        """Test that a message persists linked to its conversation with the given role and content."""
         assert user_message.conversation == conversation
         assert user_message.role == Message.Role.USER
         assert user_message.content == "Hello, how are you?"
 
     def test_str(self, user_message):
+        """Test that __str__ returns the "Message: <id>" format."""
         assert str(user_message) == f"Message: {user_message.id}"
 
     def test_default_metadata(self, user_message):
+        """Test that metadata defaults to an empty dict when not provided."""
         assert user_message.metadata == {}
 
     def test_ordering(self, user_message, assistant_message):
+        """Test that the default queryset orders messages by created_at ascending."""
         messages = list(Message.objects.all())
         assert messages[0].created_at <= messages[1].created_at
 
     def test_role_choices_count(self):
+        """Test that the Role enum exposes exactly four choices."""
         assert len(Message.Role.choices) == 4
