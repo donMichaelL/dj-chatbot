@@ -9,7 +9,8 @@ from dj_chatbot.forms import MessageForm
 from dj_chatbot.models import Conversation, Message
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest, HttpResponse
+    from django.http import HttpRequest
+    from django.http.response import HttpResponseBase
     from langchain_core.runnables import Runnable
 
 
@@ -69,7 +70,7 @@ class ChatMixin:
             return f"user-{request.user.pk}"
         return request.COOKIES.get("dj_chatbot_thread") or f"anon-{uuid.uuid4()}"
 
-    def persist_thread_id(self, request: HttpRequest, response: HttpResponse, thread_id: str) -> None:
+    def persist_thread_id(self, request: HttpRequest, response: HttpResponseBase, thread_id: str) -> None:
         """Write the thread ID cookie on the response for anonymous users.
 
         Authenticated users are skipped since their thread ID is tied to

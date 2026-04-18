@@ -45,6 +45,7 @@ dev = [
 test = [
   "coverage[toml]",
   "pytest>=8",
+  "pytest-asyncio>=0.24",
   "pytest-cov>=6",
   "pytest-django>=4.8",
   "pytest-randomly",
@@ -93,6 +94,7 @@ ini_options.DJANGO_SETTINGS_MODULE = "tests.settings"
 ini_options.django_find_project = false
 ini_options.pythonpath = [ "src", "." ]
 ini_options.addopts = "--strict-config --strict-markers --cov=dj_chatbot --cov-report=term-missing --cov-report=html --cov-report=xml"
+ini_options.asyncio_mode = "auto"
 ini_options.xfail_strict = true
 
 [tool.coverage]
