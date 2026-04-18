@@ -1,0 +1,25 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'dj_chatbot/css/widget.css' %}">
+
+<div id="dj-chatbot" class="dj-chatbot" data-endpoint="{{ endpoint }}" data-history="{{ history_endpoint }}" data-welcome="{{ welcome_message }}">
+    {% csrf_token %}
+    <button id="dj-chatbot-toggle" class="dj-chatbot__toggle" aria-label="Open chat" aria-expanded="false" aria-controls="dj-chatbot-window">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+    </button>
+
+    <div id="dj-chatbot-window" class="dj-chatbot__window" role="dialog" aria-modal="true" aria-labelledby="dj-chatbot-title" style="display:none;">
+        <div class="dj-chatbot__header">
+            <span id="dj-chatbot-title">{{ title }}</span>
+            <button id="dj-chatbot-close" class="dj-chatbot__close" aria-label="Close chat">&times;</button>
+        </div>
+        <div id="dj-chatbot-messages" class="dj-chatbot__messages" role="log" aria-live="polite" aria-atomic="false"></div>
+        <form id="dj-chatbot-form" class="dj-chatbot__form">
+            <input id="dj-chatbot-input" type="text" placeholder="Type a message..." autocomplete="off" />
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'dj_chatbot/js/widget.js' %}"></script>
